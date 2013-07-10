@@ -89,6 +89,9 @@ class PythonTestingComponent(base.Component):
 
     def _get_env(self):
         env_addons = DEFAULT_ENV.copy()
+       #add app dir to python modules search path before /usr/lib/python..., so modules from app dir is used instead those from site-packages, if any
+        env_addons['PYTHONPATH'] = self.get_option('app_dir')
+
         tox_fn = sh.joinpths(self.get_option('app_dir'), 'tox.ini')
         if sh.isfile(tox_fn):
             # Suck out some settings from the tox file
